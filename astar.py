@@ -3,20 +3,20 @@ import math
 a = [
    0,0,0,0,0,0,0,0,0,0,
    0,0,0,0,0,0,0,0,0,0,
-   0,0,0,1,0,0,0,0,0,0,
-   0,0,0,0,1,0,0,0,0,0,
-   0,0,0,0,0,1,0,0,0,0,
+   0,1,1,1,0,0,0,0,0,0,
+   0,1,0,0,1,0,0,0,0,0,
+   0,1,0,0,0,1,0,0,0,0,
    0,0,0,0,0,0,1,0,0,0,
-   0,0,0,0,0,0,0,0,0,0,
+   0,0,0,1,1,1,0,0,0,0,
    0,0,0,0,0,0,0,0,0,0,
    0,0,0,0,0,0,0,0,0,0,
    0,0,0,0,0,0,0,0,0,0,
 ]
 
-startx  = 1
+startx  = 2
 starty = 4
 
-targetx = 6
+targetx = 9
 targety = 0
 
 mapWidth = 10
@@ -45,7 +45,7 @@ def findpath(sx, sy, tx, ty, tilemap, xMax, yMax):
         # find new nodes
         newOpened = getNewOpenNodes(opened, closed, currX, currY, tilemap, xMax, yMax)
         for x in newOpened:
-            parents[x] = getNewParentValue(currNode, x, hVals, parents)
+            parents[x] = getNewParentValue(currNode, x, gVals, parents)
             gVals[x] = getNewGVal(currNode, x, gVals, parents)
             hVals[x] = getHVal(x, getIndex(tx, ty, xMax), tilemap, xMax)
             fVals[x] = gVals[x] + hVals[x]
@@ -137,7 +137,7 @@ def nodeDist(i, j, xMax):
 
 #manhatten distance
 def dist(sx, sy, tx, ty):
-    return abs(sx - sy) + abs(tx - ty)
+    return abs(sx - tx) + abs(sy - ty)
 
 def getIndex(x, y, xMax):
     return x + (y * xMax)
