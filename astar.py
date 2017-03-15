@@ -16,8 +16,8 @@ a = [
 startx  = 2
 starty = 4
 
-targetx = 9
-targety = 0
+targetx = 5
+targety = 3
 
 mapWidth = 10
 mapHeight = 10
@@ -103,14 +103,14 @@ def getNewParentValue(currNode, targetNode, gVals, parents):
 
 def getNewOpenNodes(opened, closed, currX, currY, tilemap, xMax, yMax):
     new = []
-    if testIfNodeIsNew(getIndex(currX + 1, currY, xMax), tilemap, xMax, yMax, opened, closed):
+    if currX + 1 < xMax and testIfNodeIsNew(getIndex(currX + 1, currY, xMax), tilemap, xMax, yMax, opened, closed):
         new.append(getIndex(currX + 1, currY, xMax))
-    if testIfNodeIsNew(getIndex(currX - 1, currY, xMax), tilemap, xMax, yMax, opened, closed):
+    if currX - 1 > -1 and testIfNodeIsNew(getIndex(currX - 1, currY, xMax), tilemap, xMax, yMax, opened, closed):
         new.append(getIndex(currX - 1, currY, xMax))
 
-    if testIfNodeIsNew(getIndex(currX, currY + 1, xMax), tilemap, xMax, yMax, opened, closed):
+    if currY < yMax and testIfNodeIsNew(getIndex(currX, currY + 1, xMax), tilemap, xMax, yMax, opened, closed):
         new.append(getIndex(currX, currY + 1, xMax))
-    if testIfNodeIsNew(getIndex(currX, currY - 1, xMax), tilemap, xMax, yMax, opened, closed):
+    if currY > -1 and testIfNodeIsNew(getIndex(currX, currY - 1, xMax), tilemap, xMax, yMax, opened, closed):
         new.append(getIndex(currX, currY - 1, xMax))
 
     return new
@@ -159,15 +159,17 @@ def getMinIndex(a):
 path = findpath(startx, starty, targetx, targety, a, mapWidth, mapHeight)
 
 lineString = []
-
+counter = 0
 for i in range(len(a)):
-  if i % mapWidth != 0:
-    if i in path:
-      lineString.append("#")
-    elif a[i] == 1:
-      lineString.append("1")
-    else:
-      lineString.append("0")
-  else:
+  if counter == mapWidth:
+    counter = 0
     print(",".join(lineString))
     lineString = []
+
+  counter = counter + 1
+  if i in path:
+    lineString.append("#")
+  elif a[i] == 1:
+    lineString.append("1")
+  else:
+    lineString.append("0")
