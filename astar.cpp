@@ -112,7 +112,6 @@ int FindPath(const int nStartX, const int nStartY,
         counter ++;
     }
 
-    std::cout<<"Found path in " << counter <<" iterations" << std::endl;
     return 0;
 }
 
