@@ -14,6 +14,8 @@ int indexToY(int i, int xMax);
 
 int toIndex(int x, int y, int xMax);
 
-void getNewOpenNodes(int x, int y, int *parents, bool *open, bool *closed, int xMax, int yMax, const unsigned char *map);
+void getNewOpenNodes(int x, int y, int *parents, bool *open, bool *closed, int xMax, int yMax, const unsigned char *map, bool *toCheck);
+
+int getBestOpenNodeIndex(bool *open, int *fVals, int length);
 
 #endif
