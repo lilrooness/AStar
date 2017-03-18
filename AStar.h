@@ -1,12 +1,6 @@
 #ifndef ASTAR_H
 #define ASTAR_H
 
-struct node {
-	int index;
-	int parent;
-	int x, y;
-};
-
 int FindPath(const int nStartX, const int nStartY,
         const int nTargetX, const int nTargetY,
         const unsigned char* pMap, const int nMapWidth, const int nMapHeight,
@@ -19,5 +13,7 @@ int indexToX(int i, int xMax);
 int indexToY(int i, int xMax);
 
 int toIndex(int x, int y, int xMax);
+
+void getNewOpenNodes(int x, int y, int *parents, bool *open, bool *closed, int xMax, int yMax, const unsigned char *map);
 
 #endif
