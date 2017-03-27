@@ -3,39 +3,6 @@
 
 #include "AStar.h"
 
-int main(int argc, const char **argv) {
-
-    const unsigned char map[] = {
-        '0','0','0','0','0','0','0','0','0','0',
-        '0','0','0','0','0','0','0','0','0','0',
-        '0','1','1','1','0','0','0','0','0','0',
-        '0','1','0','0','1','0','0','0','0','0',
-        '0','1','0','0','0','1','0','0','0','0',
-        '0','0','0','0','0','0','1','0','0','0',
-        '0','0','0','1','1','1','0','0','0','0',
-        '0','0','0','0','0','0','0','0','0','0',
-        '0','0','0','0','0','0','0','0','0','0',
-        '0','0','0','0','0','0','0','0','0','0'
-    };
-
-    const int startx  = 2;
-    const int starty = 4;
-
-    const int targetx = 5;
-    const int targety = 3;
-
-    const int mapWidth = 10;
-    const int mapHeight = 10;
-
-    int outBuffer[50] = {};
-
-    const int outBufferSize = 50;
-
-    FindPath(startx, starty, targetx, targety, map, mapWidth, mapHeight, outBuffer, outBufferSize);
-
-    return 0;
-}
-
 int FindPath(const int nStartX, const int nStartY,
         const int nTargetX, const int nTargetY,
         const unsigned char* pMap, const int nMapWidth, const int nMapHeight,
@@ -112,7 +79,33 @@ int FindPath(const int nStartX, const int nStartY,
         counter ++;
     }
 
-    return 0;
+    int pathLength = 0;
+    int startNode = toIndex(nStartX, nStartY, nMapWidth);
+    int targetNode = toIndex(nTargetX, nTargetY, nMapWidth);
+    currNode = targetNode;
+
+    while(currNode != startNode) {
+        pathLength ++;
+        currNode = parents[currNode];
+    }
+
+    int reversePath[pathLength];
+
+    //place in reverse order array
+    currNode = targetNode;
+    for(int i=0; i<pathLength ; i++) {
+        reversePath[i] = currNode;
+        currNode = parents[currNode];
+    }
+
+    //place in proper order in pOutBuffer
+    for(int i=0; i<pathLength; i++) {
+        if(nOutBufferSize > i) {
+            pOutBuffer[i] = reversePath[pathLength - 1 - i];
+        }
+    }
+
+    return pathLength;
 }
 
 int getBestOpenNodeIndex(bool *open, int *fVals, int length) {
